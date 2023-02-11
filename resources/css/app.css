@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    button {
+        @apply text-gray-600 dark:text-gray-400 disabled:text-gray-500 disabled:bg-gray-500/10;
+    }
+}
