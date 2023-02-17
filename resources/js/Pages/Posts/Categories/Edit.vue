@@ -10,26 +10,27 @@ import { useToast } from "vue-toastification";
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
+const { category } = defineProps({
+  title: "String",
+  category: Object,
+});
+
 const form = useForm({
-  title: "",
-  slug: "",
-  body: "",
+  name: category?.name,
+  slug: category?.slug,
+  desc: category?.desc,
 });
 
 const toast = useToast();
 
 const handleSubmit = () => {
-  form.post(`/dashboard/posts/`, {
+  form.put(route("categories.update", category.slug), {
     preserveScroll: true,
     onSuccess: () => {
       toast.success("Success");
     },
   });
 };
-
-const ckeditor = CKEditor.component;
-const editor = ClassicEditor;
-const editorConfig = {};
 </script>
 
 
@@ -47,28 +48,28 @@ const editorConfig = {};
           font-semibold
           leading-tight
           text-gray-800
+          capitalize
           dark:text-gray-200
         "
       >
-        Create New Post
+        {{ title }}
       </h2>
     </template>
 
     <form @submit.prevent="handleSubmit">
       <LayoutCard>
-        <Link type="button" :href="route('posts.index')">Visit Posts Page</Link>
-        <h3 class="pb-4 text-lg">Please enter your post details</h3>
+        <h3 class="pb-4 text-lg">Please enter category details</h3>
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <div>
-            <InputLabel for="title">Title</InputLabel>
+            <InputLabel for="name">Name</InputLabel>
             <TextInput
-              id="title"
-              placeholder="Enter a post title"
+              id="name"
+              placeholder="Enter category name"
               class="w-full px-4 py-2"
-              v-model="form.title"
+              v-model="form.name"
             />
-            <span class="error" v-if="form.errors.title">{{
-              form.errors.title
+            <span class="error" v-if="form.errors.name">{{
+              form.errors.name
             }}</span>
           </div>
           <div>
@@ -87,23 +88,26 @@ const editorConfig = {};
       </LayoutCard>
 
       <LayoutCard class="body-editor">
-        <div class="py-12">
-          <InputLabel for="body">Post Body</InputLabel>
-          <!-- <textarea
-            class="w-full border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"
-            v-model="form.body"
+        <div class="">
+          <InputLabel for="body">Description (optional)</InputLabel>
+          <textarea
+            class="
+              w-full
+              border-gray-300
+              rounded-md
+              shadow-sm
+              dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300
+              focus:border-indigo-500
+              dark:focus:border-indigo-600
+              focus:ring-indigo-500
+              dark:focus:ring-indigo-600
+            "
+            v-model="form.desc"
             rows="10"
-            placeholder="Use toolbar to modify text!"
-          ></textarea> -->
-          <ckeditor
-            :editor="editor"
-            :config="editorConfig"
-            class="text-black"
-            v-model="form.body"
-            rows="10"
-          ></ckeditor>
-          <span class="error" v-if="form.errors.body">{{
-            form.errors.body
+            placeholder="Category description"
+          ></textarea>
+          <span class="error" v-if="form.errors.desc">{{
+            form.errors.desc
           }}</span>
         </div>
         <div>

@@ -54,6 +54,12 @@ const showingNavigationDropdown = ref(false);
                 >
                   Posts
                 </NavLink>
+                <NavLink
+                  :href="route('categories.create')"
+                  :active="route().current('posts.create')"
+                >
+                  Categories
+                </NavLink>
               </div>
             </div>
 

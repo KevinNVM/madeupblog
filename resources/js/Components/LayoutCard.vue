@@ -1,8 +1,3 @@
-<script setup>
-defineProps({
-  first: Boolean,
-});
-</script>
 
 <template>
   <div class="py-4">
@@ -16,10 +11,22 @@ defineProps({
           sm:rounded-lg
         "
       >
-        <div class="p-6 text-gray-900 dark:text-gray-100">
+        <div
+          class="text-gray-900 dark:text-gray-100"
+          :class="{ 'p-6': usePadding }"
+        >
           <slot></slot>
         </div>
       </div>
     </div>
   </div>
 </template>
+
+<script setup>
+defineProps({
+  usePadding: {
+    type: Boolean,
+    default: true,
+  },
+});
+</script>

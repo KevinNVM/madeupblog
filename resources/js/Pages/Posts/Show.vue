@@ -1,17 +1,67 @@
 <script setup>
-import { Head, Link } from "@inertiajs/vue3";
-import BaseLayout from "@/Layouts/BaseLayout.vue";
+import { Head, Link, usePage, router } from "@inertiajs/vue3";
 import LayoutCard from "@/Components/LayoutCard.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
+import BaseLayout from "@/Layouts/BaseLayout.vue";
+import { useToast } from "vue-toastification";
+import axios from "axios";
+import { ref } from "@vue/runtime-core";
+import {
+  copyTextToClipboard,
+  fallbackCopyTextToClipboard,
+} from "./../../Plugin/plugins";
 
-defineProps({
+const props = defineProps({
   post: Object,
+  title: {
+    type: String,
+    default: "Posts",
+  },
 });
+
+const page = usePage();
+const toast = useToast();
+let post_likes = ref(props.post.likes);
+
+const likePost = async () => {
+  const response = await axios.post(
+    `/session-helpers/posts/actions/like?from=${props.post.slug}`
+  );
+  if (response.data === 1) {
+    toast.success("Thank You! We appreciate your contributions");
+    post_likes.value += 1;
+  } else if (response.data === 2)
+    toast("Thank you! but you already liked this post");
+  else toast.error("We are very sorry, Something happened on our end");
+};
+
+const deletePost = () => {
+  axios.delete(`/dashboard/posts/${props.post.slug}`);
+  router.visit(route("posts.index"), {
+    method: "get",
+    onSuccess: (page) => {
+      toast.success(
+        "Post Deleted! Visit /dashboard/posts/trash to restore it",
+        {
+          timeout: 4000,
+        }
+      );
+    },
+  });
+};
+
+const copyUrl = () =>
+  copyTextToClipboard(window.location.href)
+    ? toast.success("Copied URL To Clipboard!", {
+        timeout: 2000,
+      })
+    : toast.error("Failed to copy URL", {
+        timeout: 2000,
+      });
 </script>
 
 <template>
   <Head>
-    <title>All Posts</title>
+    <title>{{ title }}</title>
   </Head>
 
   <BaseLayout>
@@ -27,22 +77,39 @@ defineProps({
       >
         Share
       </h2>
+      <div class="flex gap-1">
+        <Link
+          type="button"
+          :href="route('posts.edit', post.slug)"
+          v-if="
+            $page.props.auth.user && $page.props.auth.user.id === post.user_id
+          "
+        >
+          Edit
+        </Link>
+        <button
+          type="button"
+          @click="deletePost"
+          v-if="
+            $page.props.auth.user && $page.props.auth.user.id === post.user_id
+          "
+        >
+          Delete
+        </button>
+      </div>
     </template>
 
     <LayoutCard>
       <article class="">
         <header>
           <h1 class="text-xl font-semibold text-center capitalize lg:text-2xl">
-            <Link
-              class="hover:underline underline-offset-2"
-              :href="route('posts.show', post.id)"
-            >
+            <button @click="copyUrl" class="hover:underline underline-offset-2">
               {{ post.title }}
-            </Link>
+            </button>
           </h1>
           <div
             class="
-              flex
+              flex flex-col
               items-center
               justify-center
               gap-2
@@ -51,22 +118,43 @@ defineProps({
               dark:text-gray-300
             "
           >
-            <span aria-label="author" class="text-sm">Author </span>
-            in
-            <Link
-              href="#/posts/category/Lifestyle"
-              aria-label="category"
-              class="font-semibold leading-normal text-indigo-500"
-              >Lifestyle</Link
-            >
-            <span aria-label="date release" class="text-sm">5 Days Ago</span>
+            <div>
+              <Link
+                aria-label="author"
+                :href="`/posts?author=${post.user.name}`"
+                class="text-sm font-semibold text-teal-400"
+                >{{ post.user.name.replace(/^(.{1}[^\s]*).*/, "$1") }}</Link
+              >
+              in
+              <Link
+                :href="`/posts/categories/${post.category?.slug}`"
+                aria-label="category"
+                class="font-semibold leading-normal text-indigo-500"
+                >{{ post.category?.name }}</Link
+              >
+              <span aria-label="date release" class="ml-2 text-sm">{{
+                new Date(post.created_at).toLocaleString()
+              }}</span>
+            </div>
+            <span aria-label="likes" class="text-sm">
+              {{ post_likes }} person likes this post
+            </span>
           </div>
         </header>
         <section aria-label="article body" class="py-8">
-          <p class="mx-auto prose prose-invert">
-            {{ post.body }}
-          </p>
+          <div class="mx-auto prose dark:prose-invert" v-html="post.body"></div>
         </section>
+        <footer>
+          <p>
+            Like this post ?
+            <button
+              class="text-teal-500 dark:text-indigo-500"
+              @click="likePost"
+            >
+              Leave a Like
+            </button>
+          </p>
+        </footer>
       </article>
     </LayoutCard>
 
@@ -134,5 +222,3 @@ defineProps({
     </LayoutCard>
   </BaseLayout>
 </template>
-
-

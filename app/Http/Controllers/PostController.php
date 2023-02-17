@@ -10,13 +10,19 @@ class PostController extends Controller
 {
     public function index()
     {
+        $posts = Post::latest('id', 'asc')->filter(request()->all())->paginate(10)->withQueryString();
+
         return Inertia::render('Posts/Index', [
-            'posts' => Post::all()
+            'posts' => fn () => $posts,
+            'title' => 'All Posts'
         ]);
     }
 
     public function show(Post $post)
     {
-        return Inertia::render('Posts/Show', compact("post"));
+        return Inertia::render('Posts/Show', [
+            'post' => $post,
+            'title' => $post->title
+        ]);
     }
 }

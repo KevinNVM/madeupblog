@@ -3,7 +3,32 @@
 @tailwind utilities;
 
 @layer components {
-    button {
+    button,
+    [type="button"] {
         @apply text-gray-600 dark:text-gray-400 disabled:text-gray-500 disabled:bg-gray-500/10;
     }
+    .error {
+        @apply text-sm text-red-500;
+    }
+    .ck-content {
+        color: black;
+        @apply max-w-full prose;
+    }
+    .ck-content strong {
+        @apply font-bold;
+    }
+
+    iframe {
+        @apply w-full aspect-video;
+    }
+}
+
+.v-enter-active,
+.v-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
 }

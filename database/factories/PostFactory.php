@@ -18,10 +18,11 @@ class PostFactory extends Factory
     {
         $title = $this->faker->words(mt_rand(1, 5), true);
         return [
-            'user_id' => 1,
+            'user_id' => mt_rand(1, 2),
             'title' => $title,
-            'slug' => str($title)->slug(),
-            'body' => $this->faker->paragraphs(50, true)
+            'slug' => mt_rand(10e4, 10e6) . '-' . str()->slug($title),
+            'body' => $this->faker->paragraphs(50, true),
+            'category_id' => mt_rand(1, 2)
         ];
     }
 }

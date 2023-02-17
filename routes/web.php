@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardPostCategoryController;
 use App\Http\Controllers\DashboardPostController;
+use App\Http\Controllers\HelpersController;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
@@ -27,9 +30,17 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
+Route::resource('posts/categories', CategoryController::class)->only(['index', 'show']);
 Route::resource('posts', PostController::class)->only(['index', 'show']);
-Route::resource('/dashboard/posts', DashboardPostController::class);
+Route::resource('dashboard/posts/categories', DashboardPostCategoryController::class)->except(['index', 'show']);
+Route::resource('dashboard/posts', DashboardPostController::class)->except(['index', 'show']);
 
+Route::get('/about', fn () => Inertia::render('Welcome', [
+    'canLogin' => Route::has('login'),
+    'canRegister' => Route::has('register'),
+    'laravelVersion' => Application::VERSION,
+    'phpVersion' => PHP_VERSION,
+]));
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -41,4 +52,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
 require __DIR__ . '/auth.php';
+
+// Helpers
+Route::prefix('/session-helpers')->group(function () {
+    Route::post('/posts/actions/like', [HelpersController::class, 'postsActionsLike'])->name('posts.actions.like');
+});
+Route::prefix('/helpers')->group(function () {
+    Route::get('/posts/get-post-categories', [HelpersController::class, 'getPostCategories'])->name('posts.actions.getCategories');
+});

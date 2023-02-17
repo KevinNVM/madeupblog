@@ -8,18 +8,20 @@ import TextInput from "@/Components/TextInput.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import { useToast } from "vue-toastification";
 import CKEditor from "@ckeditor/ckeditor5-vue";
+
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
+const props = defineProps({ post: Object });
 const form = useForm({
-  title: "",
-  slug: "",
-  body: "",
+  title: props.post.title,
+  slug: props.post.slug,
+  body: props.post.body,
 });
 
 const toast = useToast();
 
 const handleSubmit = () => {
-  form.post(`/dashboard/posts/`, {
+  form.put(`/dashboard/posts/${props.post.slug}`, {
     preserveScroll: true,
     onSuccess: () => {
       toast.success("Success");
@@ -36,7 +38,7 @@ const editorConfig = {};
 
 <template>
   <Head>
-    <title>{{ title }}</title>
+    <title>All Posts</title>
   </Head>
 
   <BaseLayout :hideFooter="true">
@@ -50,13 +52,15 @@ const editorConfig = {};
           dark:text-gray-200
         "
       >
-        Create New Post
+        Edit Post
       </h2>
     </template>
 
     <form @submit.prevent="handleSubmit">
       <LayoutCard>
-        <Link type="button" :href="route('posts.index')">Visit Posts Page</Link>
+        <Link type="button" :href="route('posts.show', post.slug)"
+          >Visit Post</Link
+        >
         <h3 class="pb-4 text-lg">Please enter your post details</h3>
         <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
           <div>
@@ -87,7 +91,7 @@ const editorConfig = {};
       </LayoutCard>
 
       <LayoutCard class="body-editor">
-        <div class="py-12">
+        <div class="mb-3">
           <InputLabel for="body">Post Body</InputLabel>
           <!-- <textarea
             class="w-full border-gray-300 rounded-md shadow-sm dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"
