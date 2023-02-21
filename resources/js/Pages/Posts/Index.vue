@@ -27,7 +27,7 @@ const setShowSearchButton = (e) =>
 const resetSearchQuery = () => (searchQuery.value = "");
 const handleSubmit = () => {
   router.visit(
-    `?search=${searchQuery.value}&category=${categoryQuery.value}&author=${authorQuery.value}`,
+    `?category=${categoryQuery.value}&author=${authorQuery.value}&search=${searchQuery.value}`,
     {
       only: ["posts"],
       preserveState: true,
@@ -38,12 +38,12 @@ const handleSubmit = () => {
 const pushUrl = (value) => {
   const { author, category } = {
     ...value,
-    category: value.category?.join("|"),
+    category: value.category?.join(","),
   };
   authorQuery.value = author;
   categoryQuery.value = category;
   router.visit(
-    `?search=${searchQuery.value}&category=${categoryQuery.value}&author=${authorQuery.value}`,
+    `?category=${categoryQuery.value}&author=${authorQuery.value}&search=${searchQuery.value}`,
     {
       only: ["posts"],
       preserveState: true,
@@ -56,6 +56,7 @@ const pushUrl = (value) => {
 <template>
   <Head>
     <title>{{ title }}</title>
+    <meta name="description" content="all posts" />
   </Head>
 
   <BaseLayout>

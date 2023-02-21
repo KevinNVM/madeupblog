@@ -38,13 +38,20 @@ export default defineComponent({
           },
           {
             label: "Delete",
-            onClick: () =>
+            onClick: () => {
+              if (
+                !confirm(
+                  "Are you sure?\nDeleting category will delete all of it's related posts!\nThis Action Cannot be Undone!"
+                )
+              )
+                return false;
               router.delete(
                 route(
                   "categories.destroy",
                   e?.target?.getAttribute("data-category")
                 )
-              ),
+              );
+            },
           },
         ],
       });
@@ -56,6 +63,7 @@ export default defineComponent({
 <template>
   <Head>
     <title>{{ title }}</title>
+    <meta name="description" content="category list" />
   </Head>
 
   <BaseLayout :hide-footer="true">

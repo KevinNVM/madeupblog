@@ -6,7 +6,7 @@ defineProps({
   },
   text: {
     type: String,
-    default: "Hey, Check this out!",
+    default: "Hey, Check this out!\n",
   },
 });
 </script>
@@ -17,21 +17,22 @@ defineProps({
       class="
         inline-flex
         items-center
-        p-3
+        p-2
         mb-1
         mr-1
         text-white
         transition
         duration-200
-        bg-indigo-600
-        border-2 border-indigo-600
+        bg-blue-500
+        border-2 border-blue-500
         rounded-full
         ease
-        hover:bg-indigo-700 hover:border-indigo-700
+        hover:bg-blue-700 hover:border-blue-700
       "
       target="_blank"
       rel="noopener"
       :href="`https://facebook.com/sharer/sharer.php?u=${url}`"
+      title="Share on Facebook"
       aria-label="Share on Facebook"
     >
       <svg
@@ -51,21 +52,22 @@ defineProps({
       class="
         inline-flex
         items-center
-        p-3
+        p-2
         mb-1
         mr-1
         text-white
         transition
         duration-200
-        bg-indigo-600
-        border-2 border-indigo-600
+        bg-sky-500
+        border-2 border-sky-500
         rounded-full
         ease
-        hover:bg-indigo-700 hover:border-indigo-700
+        hover:bg-sky-700 hover:border-sky-700
       "
       target="_blank"
       rel="noopener"
       :href="`https://twitter.com/intent/tweet?url=${url}&amp;text=${text}`"
+      title="Share on Twitter"
       aria-label="Share on Twitter"
     >
       <svg
@@ -85,21 +87,22 @@ defineProps({
       class="
         inline-flex
         items-center
-        p-3
+        p-2
         mb-1
         mr-1
         text-white
         transition
         duration-200
-        bg-indigo-600
-        border-2 border-indigo-600
+        bg-blue-600
+        border-2 border-blue-600
         rounded-full
         ease
-        hover:bg-indigo-700 hover:border-indigo-700
+        hover:bg-blue-700 hover:border-blue-700
       "
       target="_blank"
       rel="noopener"
       :href="`https://www.linkedin.com/shareArticle?mini=true&amp;url=${url}&amp;title=${text}&amp;summary=${text}&amp;source=${url}`"
+      title="Share on Linkedin"
       aria-label="Share on Linkedin"
     >
       <svg
@@ -119,21 +122,22 @@ defineProps({
       class="
         inline-flex
         items-center
-        p-3
+        p-2
         mb-1
         mr-1
         text-white
         transition
         duration-200
-        bg-indigo-600
-        border-2 border-indigo-600
+        bg-slate-600
+        border-2 border-slate-600
         rounded-full
         ease
-        hover:bg-indigo-700 hover:border-indigo-700
+        hover:bg-slate-700 hover:border-slate-700
       "
       target="_blank"
       rel="noopener"
       :href="`https://www.tumblr.com/widgets/share/tool?posttype=link&amp;title=${text}&amp;caption=${text}&amp;content=${url}&amp;canonicalUrl=${url}&amp;shareSource=tumblr_share_button`"
+      title="Share on Tumblr"
       aria-label="Share on Tumblr"
       draggable="false"
     >
@@ -154,21 +158,22 @@ defineProps({
       class="
         inline-flex
         items-center
-        p-3
+        p-2
         mb-1
         mr-1
         text-white
         transition
         duration-200
-        bg-indigo-600
-        border-2 border-indigo-600
+        bg-red-600
+        border-2 border-red-600
         rounded-full
         ease
-        hover:bg-indigo-700 hover:border-indigo-700
+        hover:bg-red-700 hover:border-red-700
       "
       target="_blank"
       rel="noopener"
       :href="`https://pinterest.com/pin/create/button/?url=${url}&amp;media=${url}&amp;description=${text}`"
+      title="Share on Pinterest"
       aria-label="Share on Pinterest"
       draggable="false"
     >
@@ -189,21 +194,22 @@ defineProps({
       class="
         inline-flex
         items-center
-        p-3
+        p-2
         mb-1
         mr-1
         text-white
         transition
         duration-200
-        bg-indigo-600
-        border-2 border-indigo-600
+        bg-orange-600
+        border-2 border-orange-600
         rounded-full
         ease
-        hover:bg-indigo-700 hover:border-indigo-700
+        hover:bg-orange-700 hover:border-orange-700
       "
       target="_blank"
       rel="noopener"
       :href="`https://reddit.com/submit/?url=${url}&amp;resubmit=true&amp;title=${text}`"
+      title="Share on Reddit"
       aria-label="Share on Reddit"
       draggable="false"
     >
@@ -224,21 +230,22 @@ defineProps({
       class="
         inline-flex
         items-center
-        p-3
+        p-2
         mb-1
         mr-1
         text-white
         transition
         duration-200
-        bg-indigo-600
-        border-2 border-indigo-600
+        bg-lime-600
+        border-2 border-lime-600
         rounded-full
         ease
-        hover:bg-indigo-700 hover:border-indigo-700
+        hover:bg-lime-700 hover:border-lime-700
       "
       target="_blank"
       rel="noopener"
       :href="`https://www.xing.com/app/user?op=share;url=${url};title=${text}`"
+      title="Share on Xing"
       aria-label="Share on Xing"
       draggable="false"
     >
@@ -259,21 +266,22 @@ defineProps({
       class="
         inline-flex
         items-center
-        p-3
+        p-2
         mb-1
         mr-1
         text-white
         transition
         duration-200
-        bg-indigo-600
-        border-2 border-indigo-600
+        bg-green-600
+        border-2 border-green-600
         rounded-full
         ease
-        hover:bg-indigo-700 hover:border-indigo-700
+        hover:bg-green-700 hover:border-green-700
       "
       target="_blank"
       rel="noopener"
       :href="`https://wa.me/?text=${text}%20${url}`"
+      title="Share on Whatsapp"
       aria-label="Share on Whatsapp"
       draggable="false"
     >
@@ -294,21 +302,22 @@ defineProps({
       class="
         inline-flex
         items-center
-        p-3
+        p-2
         mb-1
         mr-1
         text-white
         transition
         duration-200
-        bg-indigo-600
-        border-2 border-indigo-600
+        bg-amber-500
+        border-2 border-amber-500
         rounded-full
         ease
-        hover:bg-indigo-700 hover:border-indigo-700
+        hover:bg-amber-700 hover:border-amber-700
       "
       target="_blank"
       rel="noopener"
       :href="`https://news.ycombinator.com/submitlink?u=${url}&amp;t=${text}`"
+      title="Share on Hacker News"
       aria-label="Share on Hacker News"
       draggable="false"
     >
@@ -329,7 +338,7 @@ defineProps({
       class="
         inline-flex
         items-center
-        p-3
+        p-2
         mb-1
         mr-1
         text-white
@@ -344,6 +353,7 @@ defineProps({
       target="_blank"
       rel="noopener"
       :href="`http://vk.com/share.php?title=${text}&amp;url=${url}`"
+      title="Share on VK"
       aria-label="Share on VK"
       draggable="false"
     >
@@ -364,21 +374,22 @@ defineProps({
       class="
         inline-flex
         items-center
-        p-3
+        p-2
         mb-1
         mr-1
         text-white
         transition
         duration-200
-        bg-indigo-600
-        border-2 border-indigo-600
+        bg-blue-500
+        border-2 border-blue-500
         rounded-full
         ease
-        hover:bg-indigo-700 hover:border-indigo-700
+        hover:bg-blue-700 hover:border-blue-700
       "
       target="_blank"
       rel="noopener"
       :href="`https://telegram.me/share/url?text=${text}&amp;url=${url}`"
+      title="Share on Telegram"
       aria-label="Share on Telegram"
       draggable="false"
     >
@@ -399,21 +410,22 @@ defineProps({
       class="
         inline-flex
         items-center
-        p-3
+        p-2
         mb-1
         mr-1
         text-white
         transition
         duration-200
-        bg-indigo-600
-        border-2 border-indigo-600
+        bg-gray-600
+        border-2 border-gray-600
         rounded-full
         ease
-        hover:bg-indigo-700 hover:border-indigo-700
+        hover:bg-gray-700 hover:border-gray-700
       "
       target="_blank"
       rel="noopener"
       :href="`mailto:?subject=${text}&amp;body=${url}`"
+      title="Share by Email"
       aria-label="Share by Email"
       draggable="false"
     >

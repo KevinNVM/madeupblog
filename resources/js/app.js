@@ -20,6 +20,12 @@ const VueToastConfig = {
     newestOnTop: false,
 };
 
+const cleanApp = () => {
+    document.getElementById("app").removeAttribute("data-page");
+};
+
+document.addEventListener("inertia:finish", cleanApp);
+
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) =>
@@ -39,4 +45,4 @@ createInertiaApp({
     progress: {
         color: "#5eead4",
     },
-});
+}).then(cleanApp);

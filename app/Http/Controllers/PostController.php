@@ -10,7 +10,8 @@ class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::latest('id', 'asc')->filter(request()->all())->paginate(10)->withQueryString();
+        $posts = Post::latest('id', 'asc')->filter(request()->only(['search', 'category', 'author', 'hasLikes']))->paginate(10)->withQueryString();
+
 
         return Inertia::render('Posts/Index', [
             'posts' => fn () => $posts,

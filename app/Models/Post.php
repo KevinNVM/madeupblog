@@ -9,11 +9,12 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Cviebrock\EloquentSluggable\Sluggable;
+use BeyondCode\Comments\Traits\HasComments;
 
 
 class Post extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable;
+    use HasFactory, SoftDeletes, Sluggable, HasComments;
 
     protected $guarded = ['id'];
     protected $with = ['user', 'category'];
@@ -50,29 +51,29 @@ class Post extends Model
     {
         $query->when($filters['hasLikes'] ?? false, fn ($query) => $query->where('likes', '>=', '1'));
 
-        $query->when($filters['search'] ?? false, function ($query, $search) {
-            $query->where('title', 'like', "%$search%")->orWhere('title', 'like', "%$search");
-        });
-
         // $query->when($filters['hasComments'] ?? false, fn($query, $hasComments) => $query->where('likes', '>=', '1'));
 
         $query->when($filters['author'] ?? false, function ($query, $author) {
-            $query->whereHas('user', function ($query) use ($author) {
+            return $query->whereHas('user', function ($query) use ($author) {
                 $query->where('username', 'like', "%$author%");
             });
         });
 
-
         $query->when($filters['category'] ?? false, function ($query, $category) {
-            $query->whereHas('category', function ($query) use ($category) {
+            return $query->whereHas('category', function ($query) use ($category) {
                 $category = str_replace(',', '|', $category);
                 $query->whereRaw("slug REGEXP '$category'");
             });
         });
 
+        $query->when($filters['search'] ?? false, fn ($query, $search)
+        => $query->where(function ($query) use ($search) {
+            $query->where('title', 'LIKE', "%{$search}%");
+            // ->orWhere('body', 'LIKE', "%{$search}%");
+        }));
         /**
          * @BUG :
-         *  Filtering is ignoring all scope when searchScope is Active
+         *  Filtering is ignoring all scope when searchScope is Active -> Fixed
          */
     }
 

@@ -10,9 +10,15 @@ import { useToast } from "vue-toastification";
 import CKEditor from "@ckeditor/ckeditor5-vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
+const { categories } = defineProps({
+  title: String,
+  categories: Array,
+});
+
 const form = useForm({
   title: "",
   slug: "",
+  category_id: null,
   body: "",
 });
 
@@ -30,6 +36,11 @@ const handleSubmit = () => {
 const ckeditor = CKEditor.component;
 const editor = ClassicEditor;
 const editorConfig = {};
+
+const selectOptions = categories.map((category) => ({
+  label: category.name,
+  value: category.id,
+}));
 </script>
 
 
@@ -48,9 +59,10 @@ const editorConfig = {};
           leading-tight
           text-gray-800
           dark:text-gray-200
+          capitalize
         "
       >
-        Create New Post
+        {{ title }}
       </h2>
     </template>
 
@@ -79,6 +91,19 @@ const editorConfig = {};
               class="w-full px-4 py-2"
               v-model="form.slug"
             />
+            <span class="error" v-if="form.errors.slug">{{
+              form.errors.slug
+            }}</span>
+          </div>
+          <div class="pb-12">
+            <InputLabel for="category">Category</InputLabel>
+            <v-select
+              id="category"
+              :options="selectOptions"
+              :reduce="(value) => value.value"
+              v-model="form.category_id"
+              placeholder="Choose Categories"
+            ></v-select>
             <span class="error" v-if="form.errors.slug">{{
               form.errors.slug
             }}</span>

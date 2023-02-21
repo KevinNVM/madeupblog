@@ -11,10 +11,11 @@ import CKEditor from "@ckeditor/ckeditor5-vue";
 
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-const props = defineProps({ post: Object });
+const props = defineProps({ post: Object, categories: Array });
 const form = useForm({
   title: props.post.title,
   slug: props.post.slug,
+  category_id: props.post.category_id,
   body: props.post.body,
 });
 
@@ -32,6 +33,11 @@ const handleSubmit = () => {
 const ckeditor = CKEditor.component;
 const editor = ClassicEditor;
 const editorConfig = {};
+
+const selectOptions = props?.categories?.map((category) => ({
+  label: category.name,
+  value: category.id,
+}));
 </script>
 
 
@@ -83,6 +89,19 @@ const editorConfig = {};
               class="w-full px-4 py-2"
               v-model="form.slug"
             />
+            <span class="error" v-if="form.errors.slug">{{
+              form.errors.slug
+            }}</span>
+          </div>
+          <div class="pb-12">
+            <InputLabel for="category">Category</InputLabel>
+            <v-select
+              id="category"
+              :options="selectOptions"
+              :reduce="(value) => value.value"
+              v-model="form.category_id"
+              placeholder="Choose Categories"
+            ></v-select>
             <span class="error" v-if="form.errors.slug">{{
               form.errors.slug
             }}</span>

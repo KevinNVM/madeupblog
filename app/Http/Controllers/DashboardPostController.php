@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Post\Category;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,7 +19,7 @@ class DashboardPostController extends Controller
     public function create()
     {
         $title = 'Create new post';
-        return Inertia::render('Posts/Create', compact('title'));
+        return Inertia::render('Posts/Create', ['title' => $title, 'categories' => Category::get(['id', 'name'])]);
     }
 
     /**
@@ -31,7 +32,8 @@ class DashboardPostController extends Controller
     {
         $rules = [
             'title' => ['required', 'max:255'],
-            'body' => ['required', 'max:2000']
+            'body' => ['required', 'max:2000'],
+            'category_id' => ['required']
         ];
 
         if ($request->slug) $rules['slug'] = ['min:5', 'alpha_dash', 'lowercase', 'unique:posts'];
@@ -62,7 +64,8 @@ class DashboardPostController extends Controller
         if (!Auth::check() && Auth::user()->id !== $post->user_id) abort(404);
         return Inertia::render("Posts/Edit", [
             'post' => $post,
-            'title' => "Edit $post->title"
+            'title' => "Edit $post->title",
+            'categories' => Category::get(['id', 'name'])
         ]);
     }
 

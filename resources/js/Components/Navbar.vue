@@ -10,7 +10,10 @@
           md:text-2xl
           hover:text-indigo-400
         "
-        >Logo
+      >
+        <ApplicationLogo
+          class="block w-auto text-gray-200 fill-current h-9 dark:text-gray-800"
+        />
       </Link>
       <!-- Mobile menu button -->
       <div @click="toggleNav" class="flex md:hidden">
@@ -74,6 +77,8 @@ import { ref } from "@vue/reactivity";
 import { Link } from "@inertiajs/vue3";
 import DropdownLink from "./DropdownLink.vue";
 import Dropdown from "./Dropdown.vue";
+import ApplicationLogo from "./ApplicationLogo.vue";
+
 const showMenu = ref(false);
 const toggleNav = () => (showMenu.value = !showMenu.value);
 </script>
