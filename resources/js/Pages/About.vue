@@ -1,8 +1,10 @@
 <script setup>
 import Navbar from "@/Components/Navbar.vue";
-import { Link } from "@inertiajs/vue3";
+import { Link, Head } from "@inertiajs/vue3";
 import { onMounted } from "vue";
 import AOS from "aos";
+
+defineProps(["title"]);
 
 onMounted(() => {
   AOS.init();
@@ -10,6 +12,10 @@ onMounted(() => {
 </script>
 
 <template>
+  <Head>
+    <title>{{ title }}</title>
+  </Head>
+
   <main class="relative h-screen overflow-hidden">
     <div class="bg-indigo-500 dark:bg-gray-700">
       <Navbar></Navbar>

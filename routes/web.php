@@ -30,7 +30,7 @@ Route::resource('posts', PostController::class)->only(['index', 'show']);
 Route::resource('dashboard/posts/categories', DashboardPostCategoryController::class)->except(['index', 'show'])->middleware('admin');
 Route::resource('dashboard/posts', DashboardPostController::class)->except(['index', 'show'])->middleware(['auth']);
 
-Route::get('/about', fn () => Inertia::render('About'));
+Route::get('/about', fn () => Inertia::render('About', ['title' => 'About This Page']));
 
 Route::middleware(['auth', 'verified'])->prefix('dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->where('alias', 'dashboard')->name('dashboard');
