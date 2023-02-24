@@ -52,6 +52,12 @@ const table = reactive({
       sortable: true,
     },
     {
+      label: "Views",
+      field: "views",
+      width: "5%",
+      sortable: true,
+    },
+    {
       label: "Created At",
       field: "created_at",
       width: "7%",

@@ -102,7 +102,7 @@ const newComment = (e) => {
     <meta name="keyword" :content="`${post.title},${post.category.name}`" />
   </Head>
 
-  <BaseLayout>
+  <BaseLayout :show-progress-bar="true">
     <template #header>
       <h2
         role="button"

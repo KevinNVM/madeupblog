@@ -9,15 +9,30 @@ import DropdownLink from "@/Components/DropdownLink.vue";
 import Footer from "@/Components/Footer.vue";
 import Navbar from "@/Components/Navbar.vue";
 
-defineProps(["hideFooter"]);
+defineProps({
+  hideFooter: Boolean,
+  showProgressBar: { default: false, type: Boolean },
+});
 
 const toTop = () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 };
 
+const updateProgressBar = () => {
+  var winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+  var height =
+    document.documentElement.scrollHeight -
+    document.documentElement.clientHeight;
+  var scrolled = (winScroll / height) * 100;
+  document.getElementById("myBar").style.width = scrolled + "%";
+};
+
 const showFloatingButton = ref(false);
 onMounted(() => {
-  window.onscroll = () => (showFloatingButton.value = window.scrollY > 200);
+  window.onscroll = () => {
+    showFloatingButton.value = window.scrollY > 100;
+    updateProgressBar();
+  };
 });
 </script>
 
@@ -25,8 +40,16 @@ onMounted(() => {
 
 <template>
   <div>
-    <div class="bg-indigo-500 border-b border-gray-700 dark:bg-gray-800">
+    <div
+      class="bg-indigo-500 border-b border-gray-700 dark:bg-gray-800 sticky top-0 z-50"
+    >
       <Navbar></Navbar>
+      <div
+        class="progress-container"
+        v-show="showFloatingButton && showProgressBar"
+      >
+        <div class="progress-bar bg-indigo-400" id="myBar"></div>
+      </div>
     </div>
 
     <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -83,5 +106,17 @@ onMounted(() => {
 .scale-leave-to {
   opacity: 0;
   transform: scale(0.9);
+}
+
+.progress-container {
+  width: 100%;
+  height: 8px;
+  background: #ccc;
+}
+
+.progress-bar {
+  height: 8px;
+  transition: all 50ms ease-in-out;
+  width: 0%;
 }
 </style>
