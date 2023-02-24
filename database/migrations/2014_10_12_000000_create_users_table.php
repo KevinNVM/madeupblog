@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('username')->default('@user' . mt_rand(1e3, 1e4))->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('role')->default('user');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

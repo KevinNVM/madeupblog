@@ -3,27 +3,16 @@
     <div class="flex items-center justify-between">
       <Link
         href="/"
-        class="
-          text-xl
-          font-bold
-          text-gray-100
-          md:text-2xl
-          hover:text-indigo-400
-        "
+        class="text-xl font-bold text-gray-100 md:text-2xl hover:text-indigo-400"
+        draggable="false"
       >
-        <ApplicationLogo
-          class="block w-auto text-gray-200 fill-current h-9 dark:text-gray-800"
-        />
+        <ApplicationLogo class="block w-auto text-gray-200 fill-current h-9" />
       </Link>
       <!-- Mobile menu button -->
       <div @click="toggleNav" class="flex md:hidden">
         <button
           type="button"
-          class="
-            text-gray-100
-            hover:text-gray-400
-            focus:outline-none focus:text-gray-400
-          "
+          class="text-gray-100 hover:text-gray-400 focus:outline-none focus:text-gray-400"
         >
           <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
             <path
@@ -38,12 +27,7 @@
     <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
     <ul
       :class="showMenu ? 'flex' : 'hidden'"
-      class="
-        flex-col
-        mt-8
-        space-y-4
-        md:flex md:space-y-0 md:flex-row md:items-center md:space-x-10 md:mt-0
-      "
+      class="flex-col mt-8 space-y-4 md:flex md:space-y-0 md:flex-row md:items-center md:space-x-10 md:mt-0"
     >
       <li class="text-gray-100 dark:hover:text-indigo-400 hover:text-gray-300">
         <Dropdown align="left">

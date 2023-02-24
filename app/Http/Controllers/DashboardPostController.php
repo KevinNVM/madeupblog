@@ -32,7 +32,7 @@ class DashboardPostController extends Controller
     {
         $rules = [
             'title' => ['required', 'max:255'],
-            'body' => ['required', 'max:2000'],
+            'body' => ['required'],
             'category_id' => ['required']
         ];
 
@@ -81,7 +81,8 @@ class DashboardPostController extends Controller
         if (!Auth::check() && Auth::user()->id !== $post->user_id) abort(404);
         $rules = [
             'title' => ['required', 'max:255'],
-            'body' => ['required', 'max:2000']
+            'body' => ['required'],
+            'category_id' => ['required']
         ];
 
         if ($request->slug && $request->slug !== $post->slug) $rules['slug'] = ['required', 'min:3', 'alpha_dash', 'lowercase', 'unique:posts'];
@@ -90,8 +91,8 @@ class DashboardPostController extends Controller
         $validatedData = $request->validate($rules);
 
         $slug =
-            time() . '-'
-            . (isset($validatedData['slug']) ? $validatedData['slug'] : SlugService::createSlug(Post::class, 'slug', $validatedData['title']));
+            isset($validatedData['slug']) ? $validatedData['slug'] : time() . '-'
+            . (SlugService::createSlug(Post::class, 'slug', $validatedData['title']));
 
         $validatedData['body'] = str_replace(['oembed', 'url', 'watch?v='], ['iframe', 'src', 'embed/'], $validatedData['body']);
         $validatedData['slug'] = $slug;

@@ -69,13 +69,7 @@ export default defineComponent({
   <BaseLayout :hide-footer="true">
     <template #header>
       <h2
-        class="
-          text-xl
-          font-semibold
-          leading-tight
-          text-gray-800
-          dark:text-gray-200
-        "
+        class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200"
       >
         {{ title }}
       </h2>
@@ -89,23 +83,7 @@ export default defineComponent({
             v-for="category in categories"
             :data-category="category?.slug"
             :key="category.id"
-            class="
-              p-3
-              text-lg
-              font-semibold
-              text-white
-              transition-all
-              duration-500
-              md:text-xl
-              rounded-xl
-              bg-gradient-to-tl
-              from-indigo-400
-              via-pink-500
-              to-indigo-500
-              bg-size-200 bg-pos-0
-              hover:bg-pos-100 hover:shadow-xl
-              dark:hover:shadow-lg dark:hover:shadow-gray-500
-            "
+            class="p-3 text-lg font-semibold text-white transition-all duration-500 md:text-xl rounded-xl bg-gradient-to-tl from-indigo-400 via-pink-500 to-indigo-500 bg-size-200 bg-pos-0 hover:bg-pos-100 hover:shadow-xl dark:hover:shadow-lg dark:hover:shadow-gray-500"
             :href="`/posts/categories/${category.slug}`"
           >
             {{ category.name }}

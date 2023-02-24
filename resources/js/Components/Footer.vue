@@ -5,13 +5,7 @@
     >
       <div>
         <h2
-          class="
-            text-xl
-            font-semibold
-            leading-tight
-            text-gray-800
-            dark:text-white
-          "
+          class="text-xl font-semibold leading-tight text-gray-800 dark:text-white"
         >
           {{ $inertia.page.props.appName }}
         </h2>
@@ -19,24 +13,14 @@
           &copy; Copyright {{ new Date().getFullYear() }}
         </p>
       </div>
-      <a
-        href="#top"
-        class="
-          text-indigo-500
-          font-semibold
-          dark:text-indigo-300
-          active:scale-90
-          transition
-          duration-300
-        "
-        >🔝 Back To Top</a
-      >
+      <ToggleDarkmode />
     </div>
   </footer>
 </template>
 
 <script setup>
 import { Link } from "@inertiajs/vue3";
+import ToggleDarkmode from "./ToggleDarkmode.vue";
 
 defineProps({
   hideFooter: {

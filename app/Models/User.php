@@ -3,13 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
-use BeyondCode\Comments\Contracts\Commentator;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements Commentator
+class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -43,13 +44,30 @@ class User extends Authenticatable implements Commentator
         'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * Check if a comment for a specific model needs to be approved.
-     * @param mixed $model
-     * @return bool
-     */
-    public function needsCommentApproval($model): bool
+    protected $appends = [
+        'profile_photo_url'
+    ];
+
+    public function profilePhotoUrl(): Attribute
     {
-        return false;
+        return new Attribute(
+            get: fn () => "https://ui-avatars.com/api/?name={$this->getNameAbbreviate($this->name)}&color=7F9CF5&background=EBF4"
+        );
+    }
+
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+
+    public function getNameAbbreviate($string)
+    {
+        $abbreviation = "";
+        $string = ucwords($string);
+        $words = explode(" ", "$string");
+        foreach ($words as $word) {
+            $abbreviation .= $word[0];
+        }
+        return $abbreviation;
     }
 }

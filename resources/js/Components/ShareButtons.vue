@@ -1,4 +1,6 @@
 <script setup>
+import { copyTextToClipboard, useToast } from "@/Plugin/plugins";
+
 defineProps({
   url: {
     type: String,
@@ -9,26 +11,17 @@ defineProps({
     default: "Hey, Check this out!\n",
   },
 });
+
+const copyUrl = () => {
+  copyTextToClipboard(window.location.href);
+  useToast().success("Copied URL To Clipboard!");
+};
 </script>
 
 <template>
   <div class="flex flex-wrap sharing-buttons">
     <a
-      class="
-        inline-flex
-        items-center
-        p-2
-        mb-1
-        mr-1
-        text-white
-        transition
-        duration-200
-        bg-blue-500
-        border-2 border-blue-500
-        rounded-full
-        ease
-        hover:bg-blue-700 hover:border-blue-700
-      "
+      class="inline-flex items-center p-2 mb-1 mr-1 text-white transition duration-200 bg-blue-500 border-2 border-blue-500 rounded-full ease hover:bg-blue-700 hover:border-blue-700"
       target="_blank"
       rel="noopener"
       :href="`https://facebook.com/sharer/sharer.php?u=${url}`"
@@ -49,21 +42,7 @@ defineProps({
       </svg>
     </a>
     <a
-      class="
-        inline-flex
-        items-center
-        p-2
-        mb-1
-        mr-1
-        text-white
-        transition
-        duration-200
-        bg-sky-500
-        border-2 border-sky-500
-        rounded-full
-        ease
-        hover:bg-sky-700 hover:border-sky-700
-      "
+      class="inline-flex items-center p-2 mb-1 mr-1 text-white transition duration-200 border-2 rounded-full bg-sky-500 border-sky-500 ease hover:bg-sky-700 hover:border-sky-700"
       target="_blank"
       rel="noopener"
       :href="`https://twitter.com/intent/tweet?url=${url}&amp;text=${text}`"
@@ -84,21 +63,7 @@ defineProps({
       </svg>
     </a>
     <a
-      class="
-        inline-flex
-        items-center
-        p-2
-        mb-1
-        mr-1
-        text-white
-        transition
-        duration-200
-        bg-blue-600
-        border-2 border-blue-600
-        rounded-full
-        ease
-        hover:bg-blue-700 hover:border-blue-700
-      "
+      class="inline-flex items-center p-2 mb-1 mr-1 text-white transition duration-200 bg-blue-600 border-2 border-blue-600 rounded-full ease hover:bg-blue-700 hover:border-blue-700"
       target="_blank"
       rel="noopener"
       :href="`https://www.linkedin.com/shareArticle?mini=true&amp;url=${url}&amp;title=${text}&amp;summary=${text}&amp;source=${url}`"
@@ -119,21 +84,7 @@ defineProps({
       </svg>
     </a>
     <a
-      class="
-        inline-flex
-        items-center
-        p-2
-        mb-1
-        mr-1
-        text-white
-        transition
-        duration-200
-        bg-slate-600
-        border-2 border-slate-600
-        rounded-full
-        ease
-        hover:bg-slate-700 hover:border-slate-700
-      "
+      class="inline-flex items-center p-2 mb-1 mr-1 text-white transition duration-200 border-2 rounded-full bg-slate-600 border-slate-600 ease hover:bg-slate-700 hover:border-slate-700"
       target="_blank"
       rel="noopener"
       :href="`https://www.tumblr.com/widgets/share/tool?posttype=link&amp;title=${text}&amp;caption=${text}&amp;content=${url}&amp;canonicalUrl=${url}&amp;shareSource=tumblr_share_button`"
@@ -155,21 +106,7 @@ defineProps({
       </svg>
     </a>
     <a
-      class="
-        inline-flex
-        items-center
-        p-2
-        mb-1
-        mr-1
-        text-white
-        transition
-        duration-200
-        bg-red-600
-        border-2 border-red-600
-        rounded-full
-        ease
-        hover:bg-red-700 hover:border-red-700
-      "
+      class="inline-flex items-center p-2 mb-1 mr-1 text-white transition duration-200 bg-red-600 border-2 border-red-600 rounded-full ease hover:bg-red-700 hover:border-red-700"
       target="_blank"
       rel="noopener"
       :href="`https://pinterest.com/pin/create/button/?url=${url}&amp;media=${url}&amp;description=${text}`"
@@ -191,21 +128,7 @@ defineProps({
       </svg>
     </a>
     <a
-      class="
-        inline-flex
-        items-center
-        p-2
-        mb-1
-        mr-1
-        text-white
-        transition
-        duration-200
-        bg-orange-600
-        border-2 border-orange-600
-        rounded-full
-        ease
-        hover:bg-orange-700 hover:border-orange-700
-      "
+      class="inline-flex items-center p-2 mb-1 mr-1 text-white transition duration-200 bg-orange-600 border-2 border-orange-600 rounded-full ease hover:bg-orange-700 hover:border-orange-700"
       target="_blank"
       rel="noopener"
       :href="`https://reddit.com/submit/?url=${url}&amp;resubmit=true&amp;title=${text}`"
@@ -227,21 +150,7 @@ defineProps({
       </svg>
     </a>
     <a
-      class="
-        inline-flex
-        items-center
-        p-2
-        mb-1
-        mr-1
-        text-white
-        transition
-        duration-200
-        bg-lime-600
-        border-2 border-lime-600
-        rounded-full
-        ease
-        hover:bg-lime-700 hover:border-lime-700
-      "
+      class="inline-flex items-center p-2 mb-1 mr-1 text-white transition duration-200 border-2 rounded-full bg-lime-600 border-lime-600 ease hover:bg-lime-700 hover:border-lime-700"
       target="_blank"
       rel="noopener"
       :href="`https://www.xing.com/app/user?op=share;url=${url};title=${text}`"
@@ -263,21 +172,7 @@ defineProps({
       </svg>
     </a>
     <a
-      class="
-        inline-flex
-        items-center
-        p-2
-        mb-1
-        mr-1
-        text-white
-        transition
-        duration-200
-        bg-green-600
-        border-2 border-green-600
-        rounded-full
-        ease
-        hover:bg-green-700 hover:border-green-700
-      "
+      class="inline-flex items-center p-2 mb-1 mr-1 text-white transition duration-200 bg-green-600 border-2 border-green-600 rounded-full ease hover:bg-green-700 hover:border-green-700"
       target="_blank"
       rel="noopener"
       :href="`https://wa.me/?text=${text}%20${url}`"
@@ -299,21 +194,7 @@ defineProps({
       </svg>
     </a>
     <a
-      class="
-        inline-flex
-        items-center
-        p-2
-        mb-1
-        mr-1
-        text-white
-        transition
-        duration-200
-        bg-amber-500
-        border-2 border-amber-500
-        rounded-full
-        ease
-        hover:bg-amber-700 hover:border-amber-700
-      "
+      class="inline-flex items-center p-2 mb-1 mr-1 text-white transition duration-200 border-2 rounded-full bg-amber-500 border-amber-500 ease hover:bg-amber-700 hover:border-amber-700"
       target="_blank"
       rel="noopener"
       :href="`https://news.ycombinator.com/submitlink?u=${url}&amp;t=${text}`"
@@ -335,21 +216,7 @@ defineProps({
       </svg>
     </a>
     <a
-      class="
-        inline-flex
-        items-center
-        p-2
-        mb-1
-        mr-1
-        text-white
-        transition
-        duration-200
-        bg-indigo-600
-        border-2 border-indigo-600
-        rounded-full
-        ease
-        hover:bg-indigo-700 hover:border-indigo-700
-      "
+      class="inline-flex items-center p-2 mb-1 mr-1 text-white transition duration-200 bg-indigo-600 border-2 border-indigo-600 rounded-full ease hover:bg-indigo-700 hover:border-indigo-700"
       target="_blank"
       rel="noopener"
       :href="`http://vk.com/share.php?title=${text}&amp;url=${url}`"
@@ -371,21 +238,7 @@ defineProps({
       </svg>
     </a>
     <a
-      class="
-        inline-flex
-        items-center
-        p-2
-        mb-1
-        mr-1
-        text-white
-        transition
-        duration-200
-        bg-blue-500
-        border-2 border-blue-500
-        rounded-full
-        ease
-        hover:bg-blue-700 hover:border-blue-700
-      "
+      class="inline-flex items-center p-2 mb-1 mr-1 text-white transition duration-200 bg-blue-500 border-2 border-blue-500 rounded-full ease hover:bg-blue-700 hover:border-blue-700"
       target="_blank"
       rel="noopener"
       :href="`https://telegram.me/share/url?text=${text}&amp;url=${url}`"
@@ -407,21 +260,7 @@ defineProps({
       </svg>
     </a>
     <a
-      class="
-        inline-flex
-        items-center
-        p-2
-        mb-1
-        mr-1
-        text-white
-        transition
-        duration-200
-        bg-gray-600
-        border-2 border-gray-600
-        rounded-full
-        ease
-        hover:bg-gray-700 hover:border-gray-700
-      "
+      class="inline-flex items-center p-2 mb-1 mr-1 text-white transition duration-200 bg-gray-600 border-2 border-gray-600 rounded-full ease hover:bg-gray-700 hover:border-gray-700"
       target="_blank"
       rel="noopener"
       :href="`mailto:?subject=${text}&amp;body=${url}`"
@@ -440,6 +279,29 @@ defineProps({
         <path
           d="M464 64a48 48 0 0 1 29 86L275 314c-11 8-27 8-38 0L19 150a48 48 0 0 1 29-86h416zM218 339c22 17 54 17 76 0l218-163v208c0 35-29 64-64 64H64c-35 0-64-29-64-64V176l218 163z"
         ></path>
+      </svg>
+    </a>
+    <a
+      role="button"
+      class="inline-flex items-center p-2 mb-1 mr-1 text-white transition duration-200 bg-gray-600 border-2 border-gray-600 rounded-full ease hover:bg-gray-700 hover:border-gray-700"
+      title="Copy Link"
+      aria-label="Copy Link"
+      draggable="false"
+      @click="copyUrl"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="1.5"
+        stroke="currentColor"
+        class="w-6 h-6"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244"
+        />
       </svg>
     </a>
   </div>

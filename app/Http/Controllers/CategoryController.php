@@ -30,8 +30,9 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         return Inertia::render('Posts/Index', [
-            'posts' => Post::where('category_id', $category->id)->latest()->paginate(10),
-            'title' => "$category->name Posts"
+            'posts' => Post::where('category_id', $category->id)->filter(request()->all())->latest()->paginate(10),
+            'title' => "$category->name Posts",
+            'categories' => [$category]
         ]);
     }
 }

@@ -15,9 +15,11 @@ const props = defineProps({
     type: String,
     default: "Posts",
   },
+  categories: Array,
+  sq: String,
 });
 
-const searchQuery = ref("");
+const searchQuery = ref(props.sq || "");
 const authorQuery = ref("");
 const categoryQuery = ref("");
 
@@ -29,8 +31,8 @@ const handleSubmit = () => {
   router.visit(
     `?category=${categoryQuery.value}&author=${authorQuery.value}&search=${searchQuery.value}`,
     {
-      only: ["posts"],
-      preserveState: true,
+      //   only: ["posts"],
+      // preserveState: true,
     }
   );
 };
@@ -67,26 +69,7 @@ const pushUrl = (value) => {
       >
         <input
           type="text"
-          class="
-            w-full
-            text-xl
-            font-semibold
-            leading-tight
-            text-gray-800
-            bg-transparent
-            border-0
-            rounded-t
-            border-b-black
-            dark:border-b-white
-            focus:ring-0
-            dark:text-gray-200
-            outline-0
-            focus:bg-transparent
-            hover:bg-transparent
-            active:bg-transparent
-            before:bg-transparent
-            focus:border-b-2 focus:outline-0 focus:caret-indigo-700
-          "
+          class="w-full text-xl font-semibold leading-tight text-gray-800 bg-transparent border-0 rounded-t border-b-black dark:border-b-white focus:ring-0 dark:text-gray-200 outline-0 focus:bg-transparent hover:bg-transparent active:bg-transparent before:bg-transparent focus:border-b-2 focus:outline-0 focus:caret-indigo-700"
           name="search"
           placeholder="Search..."
           v-model="searchQuery"
@@ -122,9 +105,11 @@ const pushUrl = (value) => {
       </form>
     </template>
 
-    <LayoutCard>
-      <PostFilters @push-url="pushUrl" />
-    </LayoutCard>
+    <template #heading>
+      <LayoutCard class="pt-12">
+        <PostFilters @push-url="pushUrl" :categories="categories" />
+      </LayoutCard>
+    </template>
 
     <template v-if="posts.data.length >= 1">
       <PostsCard :posts="posts.data"></PostsCard>

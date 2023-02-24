@@ -4,17 +4,17 @@ namespace App\Models;
 
 use App\Models\Post\Category;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+// use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
 use Cviebrock\EloquentSluggable\Sluggable;
-use BeyondCode\Comments\Traits\HasComments;
+// use BeyondCode\Comments\Traits\HasComments;
 
 
 class Post extends Model
 {
-    use HasFactory, SoftDeletes, Sluggable, HasComments;
+    use HasFactory, Sluggable;
 
     protected $guarded = ['id'];
     protected $with = ['user', 'category'];
@@ -22,12 +22,22 @@ class Post extends Model
     /**
      * Model's Appended Columns
      */
-    protected $appends = ['created_time'];
+    protected $appends = ['created_time', 'read_time'];
 
     public function createdTime(): Attribute
     {
         return new Attribute(
             get: fn () => $this->created_at->diffForHumans()
+        );
+    }
+
+    public function readTime(): Attribute
+    {
+        return new Attribute(
+            get: function (): int {
+                $words = explode(' ', $this->body);
+                return (int) (count($words) / 200);
+            }
         );
     }
 
@@ -55,7 +65,7 @@ class Post extends Model
 
         $query->when($filters['author'] ?? false, function ($query, $author) {
             return $query->whereHas('user', function ($query) use ($author) {
-                $query->where('username', 'like', "%$author%");
+                $query->where('username', 'like', "%$author%")->orWhere('name', 'like', "%$author%");
             });
         });
 
@@ -71,10 +81,6 @@ class Post extends Model
             $query->where('title', 'LIKE', "%{$search}%");
             // ->orWhere('body', 'LIKE', "%{$search}%");
         }));
-        /**
-         * @BUG :
-         *  Filtering is ignoring all scope when searchScope is Active -> Fixed
-         */
     }
 
     /**

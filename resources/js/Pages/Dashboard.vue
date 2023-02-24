@@ -26,9 +26,6 @@ const table = reactive({
       width: "1%",
       sortable: true,
       isKey: true,
-      onClick: () => {
-        console.log(this);
-      },
     },
     {
       label: "Title",

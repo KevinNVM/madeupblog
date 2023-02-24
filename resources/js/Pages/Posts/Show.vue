@@ -10,6 +10,7 @@ import {
   fallbackCopyTextToClipboard,
 } from "./../../Plugin/plugins";
 import ShareButtons from "@/Components/ShareButtons.vue";
+import { Disqus } from "vue-disqus";
 
 const props = defineProps({
   post: Object,
@@ -36,16 +37,14 @@ const likePost = async () => {
 };
 
 const deletePost = () => {
+  if (!confirm("are you sure?\nThis action is ireversable!")) return false;
   axios.delete(`/dashboard/posts/${props.post.slug}`);
   router.visit(route("posts.index"), {
     method: "get",
     onSuccess: (page) => {
-      toast.success(
-        "Post Deleted! Visit /dashboard/posts/trash to restore it",
-        {
-          timeout: 4000,
-        }
-      );
+      toast.success("Post Deleted!", {
+        timeout: 4000,
+      });
     },
   });
 };
@@ -60,8 +59,39 @@ const copyUrl = () =>
       });
 
 const showShareButtons = ref(false);
-const toggleShareButtons = () =>
-  (showShareButtons.value = !showShareButtons.value);
+const toggleShareButtons = (e) => {
+  showShareButtons.value = !showShareButtons.value;
+  if (navigator.share && !showShareButtons.value) {
+    navigator
+      .share({
+        title: "Hey, Check this out!",
+        url: window.location.href,
+      })
+      .then(() => {
+        toast.success("Thank you for sharing!");
+      })
+      .catch((err) => {
+        // Handle errors, if occured
+        toast.error("Error sharing this page, Please try again later");
+        console.log("Error while using Web share API:");
+        console.log(err);
+      });
+  } else {
+    console.log(
+      "platform does not support web share API. Please use fallback links..."
+    );
+  }
+};
+
+let i = 0;
+const newComment = (e) => {
+  i++;
+  if (i === 1)
+    toast.success("Comment posted!", {
+      timeout: 2000,
+    });
+  i--;
+};
 </script>
 
 <template>
@@ -76,7 +106,7 @@ const toggleShareButtons = () =>
     <template #header>
       <h2
         role="button"
-        class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200 hover:cursor-pointer select-none"
+        class="text-xl font-semibold leading-tight text-gray-800 select-none dark:text-gray-200 hover:cursor-pointer"
         @click="toggleShareButtons"
       >
         Share
@@ -90,7 +120,7 @@ const toggleShareButtons = () =>
       <article class="">
         <header>
           <h1
-            class="text-xl font-semibold text-center capitalize lg:text-2xl flex items-center justify-center gap-1"
+            class="flex items-center justify-center gap-1 text-xl font-semibold text-center capitalize lg:text-2xl"
           >
             <button @click="copyUrl" class="hover:underline underline-offset-2">
               {{ post.title }}
@@ -168,6 +198,9 @@ const toggleShareButtons = () =>
               }}</span>
             </div>
             <span aria-label="likes" class="text-sm">
+              {{ post.views }} Views
+            </span>
+            <span aria-label="likes" class="text-sm">
               {{ post_likes }} person likes this post
             </span>
           </div>
@@ -216,33 +249,13 @@ const toggleShareButtons = () =>
           <footer class="flex items-center gap-2">
             <div class="flex gap-2">
               <button
-                class="
-                  px-3
-                  py-1
-                  transition-all
-                  duration-300
-                  rounded-full
-                  bg-gray-500/20
-                  focus:ring
-                  ring-indigo-500/75
-                  disabled:text-gray-500
-                "
+                class="px-3 py-1 transition-all duration-300 rounded-full bg-gray-500/20 focus:ring ring-indigo-500/75 disabled:text-gray-500"
               >
                 1 Like
               </button>
               <button
                 disabled
-                class="
-                  px-3
-                  py-1
-                  transition-all
-                  duration-300
-                  rounded-full
-                  bg-gray-500/20
-                  focus:ring
-                  ring-indigo-500/75
-                  disabled:text-gray-500
-                "
+                class="px-3 py-1 transition-all duration-300 rounded-full bg-gray-500/20 focus:ring ring-indigo-500/75 disabled:text-gray-500"
               >
                 Reply
               </button>
@@ -251,5 +264,10 @@ const toggleShareButtons = () =>
         </div>
       </section>
     </LayoutCard> -->
+    <LayoutCard>
+      <section aria-label="comment section" class="w-full">
+        <Disqus @new-comment="newComment" />
+      </section>
+    </LayoutCard>
   </BaseLayout>
 </template>

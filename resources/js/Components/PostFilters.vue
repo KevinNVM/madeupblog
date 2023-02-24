@@ -2,17 +2,7 @@
   <div>
     <button
       role="button"
-      class="
-        font-semibold
-        md:text-lg
-        active:scale-95
-        transiton
-        flex
-        gap-2
-        items-center
-        transition
-        duration-300
-      "
+      class="flex items-center gap-2 font-semibold transition duration-300 md:text-lg active:scale-95 transiton"
       :class="{ 'border-b-2 border-spacing-2 border-indigo-300': showFilters }"
       @click="toggleFilters"
     >
@@ -36,10 +26,10 @@
       <form
         @submit.prevent="$emit('push-url', filters)"
         v-show="showFilters"
-        class="flex flex-col md:flex-row flex-wrap md:items-center"
+        class="flex flex-col flex-wrap md:flex-row md:items-center"
       >
         <input type="hidden" name="categories" :value="filters.category" />
-        <div class="mb-4 md:w-1/2 px-1" aria-label="categories filter">
+        <div class="px-1 mb-4 md:w-1/2" aria-label="categories filter">
           <label for="category">Category</label>
           <v-select
             id="category"
@@ -51,19 +41,19 @@
           ></v-select>
         </div>
         <div
-          class="mb-4 md:w-1/2 px-1 flex flex-col"
+          class="flex flex-col px-1 mb-4 md:w-1/2"
           aria-label="categories filter"
         >
           <label for="author">Author</label>
           <TextInput
             id="author"
-            placeholder="Enter author username"
+            placeholder="Enter author name"
             v-model="filters.author"
             class="p-2 border"
             name="author"
           />
         </div>
-        <div class="mb-4 w-full flex flex-col" aria-label="categories filter">
+        <div class="flex flex-col w-full mb-4" aria-label="categories filter">
           <SecondaryButton type="submit" class="grid">Apply</SecondaryButton>
         </div>
       </form>
@@ -80,17 +70,12 @@ import TextInput from "./TextInput.vue";
 
 const showFilters = ref(false);
 const toggleFilters = () => (showFilters.value = !showFilters.value);
+const { categories } = defineProps({ categories: Array });
 
-let categoryOptions = [];
-const fetchPostCategories = async () => {
-  const response = await fetch(route("posts.actions.getCategories"));
-  const data = await response.json();
-  console.log(data);
-  return data;
-};
-onMounted(async () => {
-  categoryOptions = await fetchPostCategories();
-});
+let categoryOptions = categories?.map((category) => ({
+  label: category.name,
+  value: category.slug,
+}));
 
 const filters = ref({
   category: [],

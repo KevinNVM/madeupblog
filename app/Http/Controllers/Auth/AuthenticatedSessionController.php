@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Route;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Request;
+use App\Http\Requests\Auth\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -43,13 +43,13 @@ class AuthenticatedSessionController extends Controller
     /**
      * Destroy an authenticated session.
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(): RedirectResponse
     {
         Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
+        session()->invalidate();
 
-        $request->session()->regenerateToken();
+        session()->regenerateToken();
 
         return redirect('/');
     }

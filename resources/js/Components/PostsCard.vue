@@ -2,6 +2,7 @@
 import { getPostThumbnail, escapeHTML } from "@/Plugin/plugins";
 import LayoutCard from "./LayoutCard.vue";
 import { Link } from "@inertiajs/vue3";
+import { DisqusCount } from "vue-disqus";
 
 defineProps({
   posts: Object,
@@ -16,18 +17,7 @@ defineProps({
         v-if="getPostThumbnail(post)"
         :alt="post.title"
         draggable="false"
-        class="
-          object-cover
-          md:aspect-square
-          aspect-video
-          w-full
-          md:max-w-[10rem]
-          max-w-full
-          transition-opacity
-          group-hover:saturate-150
-          mb-4
-          rounded-lg
-        "
+        class="object-cover md:aspect-square aspect-video w-full md:max-w-[10rem] max-w-full transition-opacity group-hover:saturate-150 mb-4 rounded-lg"
       />
       <div>
         <header>
@@ -40,14 +30,7 @@ defineProps({
             </Link>
           </h1>
           <div
-            class="
-              flex
-              items-center
-              gap-2
-              pt-1
-              text-gray-600
-              dark:text-gray-300
-            "
+            class="flex items-center gap-2 pt-1 text-gray-600 dark:text-gray-300"
           >
             <Link
               :href="`/posts?author=${post.user.username}`"
@@ -75,6 +58,9 @@ defineProps({
           class="article-body line-clamp-3"
           v-html="escapeHTML(post.body, true)"
         ></section>
+        <footer class="pt-2 font-semibold text-indigo-400">
+          <DisqusCount :identifier="`/posts/${post.slug}`" />
+        </footer>
       </div>
     </article>
   </LayoutCard>

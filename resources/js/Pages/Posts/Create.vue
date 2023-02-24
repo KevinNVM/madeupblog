@@ -53,14 +53,7 @@ const selectOptions = categories.map((category) => ({
   <BaseLayout :hideFooter="true">
     <template #header>
       <h2
-        class="
-          text-xl
-          font-semibold
-          leading-tight
-          text-gray-800
-          dark:text-gray-200
-          capitalize
-        "
+        class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200 capitalize"
       >
         {{ title }}
       </h2>
@@ -104,8 +97,8 @@ const selectOptions = categories.map((category) => ({
               v-model="form.category_id"
               placeholder="Choose Categories"
             ></v-select>
-            <span class="error" v-if="form.errors.slug">{{
-              form.errors.slug
+            <span class="error" v-if="form.errors.category_id">{{
+              form.errors.category_id
             }}</span>
           </div>
         </div>
@@ -127,6 +120,20 @@ const selectOptions = categories.map((category) => ({
             v-model="form.body"
             rows="10"
           ></ckeditor>
+          <details>
+            <summary class="select-none">Tip:</summary>
+            <ul>
+              <li>- You can paste image on the textarea</li>
+              <li>
+                - You can use shortcut when focusing the textarea ex:
+                <kbd>CTRL</kbd>+<kbd>B</kbd> for bold
+              </li>
+              <li>
+                - You can write your article in other document editor program
+                and paste it here!
+              </li>
+            </ul>
+          </details>
           <span class="error" v-if="form.errors.body">{{
             form.errors.body
           }}</span>

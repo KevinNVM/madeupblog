@@ -10,6 +10,8 @@ import "vue-toastification/dist/index.css";
 import "@imengyu/vue3-context-menu/lib/vue3-context-menu.css";
 import ContextMenu from "@imengyu/vue3-context-menu";
 import VueSelect from "vue-select";
+import VueDisqus from "vue-disqus";
+import "aos/dist/aos.css";
 
 const appName =
     window.document.getElementsByTagName("title")[0]?.innerText || "Laravel";
@@ -38,6 +40,7 @@ createInertiaApp({
             .component("v-select", VueSelect)
             .use(plugin)
             .use(ZiggyVue, Ziggy)
+            .use(VueDisqus, { shortname: "madeupblog" })
             .use(Toast, VueToastConfig)
             .use(ContextMenu)
             .mount(el);
