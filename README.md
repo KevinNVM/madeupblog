@@ -10,6 +10,11 @@
 ## About madeupblog
 Blogging Website Built With Laravel 9.51.0
 
+## Stacks Used
+1. Laravel
+2. InertiaJS
+3. VueJS
+
 ## Features
 1. Create, Read, Update, and Delete (Manage) Posts
 2. Manage posts categories
